@@ -17,4 +17,8 @@ public class TimedTester {
         return i + j;
     }
     
+    public String addAsync(int i, int j) {
+        return "received " + i + " " + j;
+    }
+    
 }

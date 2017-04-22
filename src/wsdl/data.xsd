@@ -16,4 +16,18 @@
             <xs:element name="return" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:element name="addAsync" type="tns:addAsync"/>
+    <xs:element name="addAsyncResponse" type="tns:addAsyncResponse"/>
+    <xs:complexType name="addAsync">
+        <xs:sequence>
+            <xs:element name="i" type="xs:int"/>
+            <xs:element name="j" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addAsyncResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
