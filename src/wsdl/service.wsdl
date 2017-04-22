@@ -5,14 +5,14 @@
     xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" 
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-    xmlns:tns="http://calculator.me.org/" 
+    xmlns:tns="http://timedtester.org/" 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
     xmlns="http://schemas.xmlsoap.org/wsdl/" 
-    targetNamespace="http://calculator.me.org/" 
-    name="CalculatorWS">
+    targetNamespace="http://timedtester.org/" 
+    name="TimedTesterWS">
     <types>
         <xsd:schema>
-            <xsd:import namespace="http://calculator.me.org/" 
+            <xsd:import namespace="http://timedtester.org/" 
                         schemaLocation="data.xsd"/>
         </xsd:schema>
     </types>
@@ -22,13 +22,13 @@
     <message name="addResponse">
         <part name="parameters" element="tns:addResponse"/>
     </message>
-    <portType name="CalculatorWS">
+    <portType name="TimedTesterWS">
         <operation name="add">
-            <input wsam:Action="http://calculator.me.org/CalculatorWS/addRequest" message="tns:add"/>
-            <output wsam:Action="http://calculator.me.org/CalculatorWS/addResponse" message="tns:addResponse"/>
+            <input wsam:Action="http://timedtester.org/TimedTesterWS/addRequest" message="tns:add"/>
+            <output wsam:Action="http://timedtester.org/TimedTesterWS/addResponse" message="tns:addResponse"/>
         </operation>
     </portType>
-    <binding name="CalculatorWSPortBinding" type="tns:CalculatorWS">
+    <binding name="TimedTesterWSPortBinding" type="tns:TimedTesterWS">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
         <operation name="add">
             <soap:operation soapAction=""/>
@@ -40,8 +40,8 @@
             </output>
         </operation>
     </binding>
-    <service name="CalculatorWS">
-        <port name="CalculatorWSPort" binding="tns:CalculatorWSPortBinding">
+    <service name="TimedTesterWS">
+        <port name="TimedTesterWSPort" binding="tns:TimedTesterWSPortBinding">
             <soap:address location="http://localhost/nowhere"/>
         </port>
     </service>

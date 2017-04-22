@@ -6,10 +6,10 @@ import javax.jws.WebService;
  *
  * @author Victor
  */
-@WebService(serviceName = "CalculatorWS", 
-        portName = "CalculatorWSPort", 
-        endpointInterface = "org.me.calculator.CalculatorWS", 
-        targetNamespace = "http://calculator.me.org/",
+@WebService(serviceName = "TimedTesterWS", 
+        portName = "TimedTesterWSPort", 
+        endpointInterface = "org.timedtester.TimedTesterWS", 
+        targetNamespace = "http://timedtester.org/",
         wsdlLocation = "WEB-INF/wsdl/service.wsdl")
 public class TimedTester {
 
