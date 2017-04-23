@@ -1,15 +1,12 @@
 package com.timedtester;
 
-import java.util.List;
 import javax.jws.WebService;
-import javax.xml.ws.EndpointReference;
 import org.timedtester.Add;
 import org.timedtester.AddAsync;
 import org.timedtester.AddAsyncResponse;
 import org.timedtester.AddResponse;
 import org.timedtester.TestClassRequest;
 import org.timedtester.TestClassResponse;
-import org.timedtester.TestClassResult;
 import org.timedtester.TimedTesterWS;
 import org.xmlsoap.schemas.ws._2004._08.addressing.EndpointReferenceType;
 
