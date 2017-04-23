@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://timedtester.org/" 
-           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" 
-           targetNamespace="http://timedtester.org/">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+           xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+           targetNamespace="http://timedtester.org/"
+           jaxb:version="2.1">
     <xs:element name="add" type="tns:add"/>
     <xs:element name="addResponse" type="tns:addResponse"/>
     
@@ -30,4 +33,147 @@
             <xs:element name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:element name="async" type="tns:async"/>
+    <xs:element name="asyncStatus" type="tns:asyncStatus"/>
+    <xs:element name="asyncCallback" type="tns:asyncCallback"/>
+    
+    <xs:complexType name="async">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsync"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="callerId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="messageExchangeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="asyncStatus">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsyncStatus"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="code" type="xs:int"/>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="callerId" type="xs:string"/>
+            <xs:element name="calleeId" type="xs:string"/>
+            <xs:element name="messageExchangeId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="asyncCallback">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsyncCallback"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="callerId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="calleeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="messageExchangeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>        
+    
+    
+    <xs:element name="testClass" type="tns:testClassRequest"/>
+    <xs:element name="testClassResponse" type="tns:testClassResponse"/>
+    
+    <xs:simpleType name="methodName">
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>    
+    <xs:complexType name="testClassRequest">
+        <xs:sequence>
+            <xs:element name="className" type="xs:string"/>
+            <xs:sequence>
+                <xs:element name="method" type="tns:methodName" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="methodAndTime">
+        <xs:sequence>
+            <xs:element name="method" type="tns:methodName" />
+            <xs:element name="time" type="xs:double" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="testClassResult">
+        <xs:complexContent>
+            <xs:extension base="tns:async">
+                <xs:sequence>
+                    <xs:element name="className" type="xs:string"/>
+                    <xs:sequence>
+                        <xs:element name="methodAndTime" type="tns:methodAndTime" minOccurs="0" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="testClassResponse">
+        <xs:sequence>
+            <xs:element name="return" type="tns:testClassResult"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:element name="getTestReport" type="tns:getTestReport"/>
+    <xs:element name="getTestReportCallback" type="tns:getTestReportCallback"/>
+    
+    <xs:complexType name="getTestReport">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsTestReport"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:async">
+                <xs:sequence>
+                    <xs:element name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="getTestReportCallback">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsGetTestReportCallback"/>
+            </xs:appinfo>
+        </xs:annotation>
+        
+        <xs:complexContent>
+            <xs:extension base="tns:asyncCallback">
+                <xs:sequence>
+                    <xs:element name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
 </xs:schema>

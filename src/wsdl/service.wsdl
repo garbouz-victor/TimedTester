@@ -6,16 +6,32 @@
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
     xmlns:tns="http://timedtester.org/" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
     xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
     targetNamespace="http://timedtester.org/" 
-    name="TimedTesterWS">
+    jaxb:version="2.1"
+    name="TimedTesterWS"
+    >
+    <jaxws:bindings>
+        <jaxws:package name="org.timedtester"/>
+        <jaxws:enableWrapperStyle>false</jaxws:enableWrapperStyle>
+    </jaxws:bindings>
     <types>
         <xsd:schema>
             <xsd:import namespace="http://timedtester.org/" 
                         schemaLocation="data.xsd"/>
         </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
+                        schemaLocation="ws-addressing-2004.xsd"/>
+        </xsd:schema>
     </types>
+    
     <message name="add">
         <part name="parameters" element="tns:add"/>
     </message>
@@ -30,14 +46,59 @@
         <part name="parameters" element="tns:addAsyncResponse"/>
     </message>
     
+    <!-- General functionality -->
+    <message name="testClass">
+        <part name="body" element="tns:testClass"/>
+        <part name="replyToHeader" element="wsa:ReplyTo"/>
+    </message>
+    
+    <message name="testClassResponse">
+        <part name="parameters" element="tns:testClassResponse"/>
+    </message>
+    
+    <!-- Async functionality -->
+    <message name="getTestReport">
+        <part name="body" element="tns:getTestReport"/>
+        <part name="replyToHeader" element="wsa:ReplyTo"/>
+    </message>
+    
+    <message name="getTestReportCallback">
+        <part name="body" element="tns:getTestReportCallback"/>
+    </message>
+    
+    <message name="asyncStatus">
+        <part name="body" element="tns:asyncStatus"/>
+    </message>
+    
     <portType name="TimedTesterWS">
         <operation name="add">
             <input wsam:Action="http://timedtester.org/TimedTesterWS/addRequest" message="tns:add"/>
             <output wsam:Action="http://timedtester.org/TimedTesterWS/addResponse" message="tns:addResponse"/>
         </operation>
+        
         <operation name="addAsync">
             <input wsam:Action="http://timedtester.org/TimedTesterWS/addAsyncRequest" message="tns:addAsync"/>
             <output wsam:Action="http://timedtester.org/TimedTesterWS/addAsyncResponse" message="tns:addAsyncResponse"/>
+        </operation>
+        
+        <operation name="testClass">
+            <input wsam:Action="http://timedtester.org/TimedTesterWS/testClassRequest" message="tns:testClass"/>
+            <output wsam:Action="http://timedtester.org/TimedTesterWS/testClassResponse" message="tns:testClassResponse"/>
+        </operation>
+        
+        <operation name="getTestReport">
+            <input message="tns:getTestReport"/>
+            <output message="tns:asyncStatus"/>
+        </operation>
+    </portType>
+    
+    <portType name="TimedTesterWSCallback">
+        <jaxws:bindings>
+            <jaxws:class name="WsTestReportCallback"/>
+        </jaxws:bindings>
+        <operation name="getTestReportCallback">
+            <input message="tns:getTestReportCallback"/>
+            <output message="tns:asyncStatus"/>
         </operation>
     </portType>
     
@@ -63,6 +124,33 @@
             </output>
         </operation>
         
+        <operation name="testClass">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal" parts="body"/>
+                <soap:header use="literal" message="tns:testClass" part="replyToHeader"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+    </binding>
+    
+    <binding name="TimedTesterWSPortBindingCallback" type="tns:TimedTesterWSCallback">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        
+        <operation name="getTestReportCallback">
+            <soap:operation soapAction=""/>
+            
+            <input>
+                <soap:body use="literal" parts="body"/>
+            </input>
+            
+            <output>
+                <soap:body use="literal" parts="body"/>
+            </output>
+        </operation>
     </binding>
     
     <service name="TimedTesterWS">
@@ -70,4 +158,23 @@
             <soap:address location="http://localhost/nowhere"/>
         </port>
     </service>
+    
+    <service name="TimedTesterWSCallback">
+        <port name="TimedTesterWSPortCallback" binding="tns:TimedTesterWSPortBindingCallback">
+            <soap:address location="http://localhost/nowhere"/>
+        </port>
+    </service>
+    
+    <!--plnk:partnerLinkType name="TimedTesterWS">
+        <plnk:role name="role" portType="tns:TimedTesterWS"/>
+        <plnk:role name="callbackRole" portType="tns:TimedTesterWSCallback"/>
+    </plnk:partnerLinkType>
+
+    <vprop:propertyAlias propertyName="prizm:processId" messageType="tns:getTestReport" part="body">
+        <vprop:query>tns:callerId</vprop:query>
+    </vprop:propertyAlias>
+
+    <vprop:propertyAlias propertyName="tns:processId" messageType="tns:getTestReportCallback" part="body">
+        <vprop:query>tns:callerId</vprop:query>
+    </vprop:propertyAlias-->
 </definitions>
