@@ -5,14 +5,13 @@
     xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" 
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-    xmlns:tns="http://timedtester.org/" 
+    xmlns:tns="http://timedtester.org/"
+    xmlns:base="http://timedtester.org/base"  
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
     xmlns="http://schemas.xmlsoap.org/wsdl/" 
-    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-    xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
     targetNamespace="http://timedtester.org/" 
     jaxb:version="2.1"
     name="TimedTesterWS"
@@ -29,6 +28,10 @@
         <xsd:schema>
             <xsd:import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
                         schemaLocation="ws-addressing-2004.xsd"/>
+        </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="http://timedtester.org/base" 
+                        schemaLocation="base-data.xsd"/>
         </xsd:schema>
     </types>
     
@@ -67,7 +70,7 @@
     </message>
     
     <message name="asyncStatus">
-        <part name="body" element="tns:asyncStatus"/>
+        <part name="body" element="base:asyncStatus"/>
     </message>
     
     <portType name="TimedTesterWS">
@@ -165,16 +168,4 @@
         </port>
     </service>
     
-    <!--plnk:partnerLinkType name="TimedTesterWS">
-        <plnk:role name="role" portType="tns:TimedTesterWS"/>
-        <plnk:role name="callbackRole" portType="tns:TimedTesterWSCallback"/>
-    </plnk:partnerLinkType>
-
-    <vprop:propertyAlias propertyName="prizm:processId" messageType="tns:getTestReport" part="body">
-        <vprop:query>tns:callerId</vprop:query>
-    </vprop:propertyAlias>
-
-    <vprop:propertyAlias propertyName="tns:processId" messageType="tns:getTestReportCallback" part="body">
-        <vprop:query>tns:callerId</vprop:query>
-    </vprop:propertyAlias-->
 </definitions>

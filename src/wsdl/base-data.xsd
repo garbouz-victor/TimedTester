@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://timedtester.org/base" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+           xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+           targetNamespace="http://timedtester.org/base"
+           jaxb:version="2.1">
+<xs:element name="async" type="tns:async"/>
+    <xs:element name="asyncStatus" type="tns:asyncStatus"/>
+    <xs:element name="asyncCallback" type="tns:asyncCallback"/>
+    
+    <xs:complexType name="async">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsync"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="callerId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="messageExchangeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="asyncStatus">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsyncStatus"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="code" type="xs:int"/>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="callerId" type="xs:string"/>
+            <xs:element name="calleeId" type="xs:string"/>
+            <xs:element name="messageExchangeId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="asyncCallback">
+        <xs:annotation>
+            <xs:appinfo>
+                <jaxb:class name="WsAsyncCallback"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="callerId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="calleeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="messageExchangeId" type="xs:string">
+                <xs:annotation>
+                    
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
