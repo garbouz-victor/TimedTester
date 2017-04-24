@@ -21,16 +21,6 @@ import org.xmlsoap.schemas.ws._2004._08.addressing.EndpointReferenceType;
         wsdlLocation = "WEB-INF/wsdl/service.wsdl")
 public class TimedTester implements TimedTesterWS {
 
-//    @Override
-//    public int add(int i, int j) {
-//        return i + j;
-//    }
-//    
-//    @Override
-//    public String addAsync(int i, int j) {
-//        return "received " + i + " " + j;
-//    }
-
     @Override
     public TestClassResponse testClass(
             TestClassRequest body, 

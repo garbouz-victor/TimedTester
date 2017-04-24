@@ -4,8 +4,8 @@ import com.timedtester.lib.containers.Test;
 import com.timedtester.lib.containers.TestParam;
 import com.timedtester.lib.containers.Tester;
 import com.timedtester.lib.utils.CountingIntegerList;
+import com.timedtester.lib.utils.data.Tuple;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -24,6 +26,7 @@ public class PredefinedListTests implements PredefinedTests {
     private int reps = 1000;
     private Map<Method, ? super Test> testsAndMethods = new HashMap<>();
     private static volatile PredefinedListTests instance;
+    private static final Log LOG = LogFactory.getLog(PredefinedLinkedListTests.class);
     
     private PredefinedListTests() {
         try {
@@ -108,7 +111,7 @@ public class PredefinedListTests implements PredefinedTests {
             });
 
         } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(PredefinedListTests.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
     }
 
@@ -139,11 +142,12 @@ public class PredefinedListTests implements PredefinedTests {
     }
 
     @Override
-    public void runTests(Class className) {
+    public Map<String, List<Tuple<String, String>>> runTests(Class className) {
         try {
-            ListTester.run((List<Integer>) className.newInstance(), getAllTests());
+            return ListTester.run((List<Integer>) className.newInstance(), getAllTests());
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(PredefinedListTests.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
+            throw new RuntimeException(ex);
         }
     }
     
@@ -161,9 +165,9 @@ public class PredefinedListTests implements PredefinedTests {
             return (List<Integer>) container;
         }
         
-        public static void run(List<Integer> list,
+        public static Map<String, List<Tuple<String, String>>> run(List<Integer> list,
                 Collection<? super Test> tests) {
-            new ListTester(list, tests).timedTest();
+            return new ListTester(list, tests).timedTest();
         }
     }
 }

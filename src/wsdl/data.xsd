@@ -58,7 +58,8 @@
     <xs:complexType name="methodAndTime">
         <xs:sequence>
             <xs:element name="method" type="tns:methodName" />
-            <xs:element name="time" type="xs:double" />
+            <xs:element name="elementsCount" type="xs:string" />
+            <xs:element name="time" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
     

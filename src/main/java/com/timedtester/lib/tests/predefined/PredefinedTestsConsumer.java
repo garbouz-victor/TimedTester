@@ -1,7 +1,6 @@
 package com.timedtester.lib.tests.predefined;
 
 import com.timedtester.lib.containers.Test;
-import com.timedtester.lib.containers.Tester;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -4,13 +4,15 @@ import com.timedtester.lib.containers.Test;
 import com.timedtester.lib.containers.TestParam;
 import com.timedtester.lib.containers.Tester;
 import com.timedtester.lib.utils.CountingIntegerList;
+import com.timedtester.lib.utils.data.Tuple;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 public class PredefinedLinkedListTests implements PredefinedTests {
     private final Map<Method, ? super Test> testsAndMethods = new HashMap<>();
     private static volatile PredefinedLinkedListTests instance;
+    private static final Log LOG = LogFactory.getLog(PredefinedLinkedListTests.class);
     
     private PredefinedLinkedListTests() {
         try {
@@ -84,7 +87,7 @@ public class PredefinedLinkedListTests implements PredefinedTests {
                 }
             });
         } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(PredefinedLinkedListTests.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
     }
     
@@ -115,13 +118,14 @@ public class PredefinedLinkedListTests implements PredefinedTests {
     }
 
     @Override
-    public void runTests(Class className) {
+    public Map<String, List<Tuple<String, String>>> runTests(Class className) {
         Tester tester;
         try {
             tester = new Tester(className.newInstance(), testsAndMethods.values());
-            tester.timedTest();
+            return tester.timedTest();
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(PredefinedLinkedListTests.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
+            throw new RuntimeException(ex);
         }        
     }
     

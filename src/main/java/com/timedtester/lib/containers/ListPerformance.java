@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.BasicConfigurator;
 
 /**
  *
@@ -185,7 +184,9 @@ public class ListPerformance {
         }
     }
     
-    public static void main(String... args) {        
+    public static void main(String... args) { 
+        //just to start logging
+        BasicConfigurator.configure();
         if (args.length > 0) {
             Tester.defaultParams = TestParam.array(args);
         }

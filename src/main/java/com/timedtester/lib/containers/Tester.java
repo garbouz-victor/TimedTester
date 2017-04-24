@@ -1,8 +1,14 @@
 package com.timedtester.lib.containers;
 
-import java.util.Arrays;
+import com.timedtester.lib.utils.data.Tuple;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -10,6 +16,7 @@ import java.util.List;
  * @param <C>
  */
 public class Tester<C> {
+    private static final Log LOG = LogFactory.getLog(Tester.class);
     public static int fieldWidth = 8;
     public static TestParam[] defaultParams = TestParam.array(
             10, 5000,
@@ -21,6 +28,8 @@ public class Tester<C> {
     protected C container;
     private String headline = "";
     private Collection<Test<C>> tests;
+    private final Map<String, List<Tuple<String, String>>> report = new HashMap<>();
+    Formatter formatter = new Formatter();
     
     private static String stringField() {
         return "%" + fieldWidth + "s";
@@ -52,12 +61,12 @@ public class Tester<C> {
     }
     
     public static <C> void run(C cntnr, List<Test<C>> tests) {
-        new Tester<C>(cntnr, tests).timedTest();
+        new Tester<>(cntnr, tests).timedTest();
     }
     
     public static <C> void run(C cntr,
             List<Test<C>> tests, TestParam[] paramList) {
-        new Tester<C>(cntr, tests, paramList).timedTest();
+        new Tester<>(cntr, tests, paramList).timedTest();
     }
     
     private void displayHeader() {
@@ -73,27 +82,35 @@ public class Tester<C> {
         for(int i = 0; i < dashLength/2; i++) {
             head.append('-');
         }
-        System.out.println(head);
-        System.out.format(sizeField, "size");
+        LOG.debug(head);
+        LOG.debug(formatter.format(sizeField, "size"));
         for(Test test : tests) {
-            System.out.format(stringField(), test.name);
+            LOG.debug(formatter.format(stringField(), test.name));
         }
-        System.out.println();
+        LOG.debug("\n");
     }
     
-    public void timedTest() {
+    public Map<String, List<Tuple<String, String>>> timedTest() {
         displayHeader();
         for(TestParam param : paramList) {
-            System.out.format(sizeField, param.size);
+           LOG.debug(formatter.format(sizeField, param.size));
             for(Test<C> test : tests) {
                 C kontainer = initialize(param.size);
                 long start = System.nanoTime();
                 int reps = test.test(kontainer, param);
                 long duration = System.nanoTime() - start;
                 long timePerRep = duration / reps;
-                System.out.format(numberField(), timePerRep);
+                if (!report.containsKey(test.name)) {
+                    report.put(test.name, new ArrayList<Tuple<String, String>>());
+                }
+                report.get(test.name).add(new Tuple(
+                        String.valueOf(param.size), 
+                        String.valueOf(timePerRep)
+                ));
+                LOG.debug(formatter.format(numberField(), timePerRep));
             }
-            System.out.println();
+            LOG.debug("\n");
         }
+        return report;
     }
 }
