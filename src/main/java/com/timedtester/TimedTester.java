@@ -1,10 +1,6 @@
 package com.timedtester;
 
 import javax.jws.WebService;
-import org.timedtester.Add;
-import org.timedtester.AddAsync;
-import org.timedtester.AddAsyncResponse;
-import org.timedtester.AddResponse;
 import org.timedtester.TestClassRequest;
 import org.timedtester.TestClassResponse;
 import org.timedtester.TimedTesterWS;
@@ -30,16 +26,5 @@ public class TimedTester implements TimedTesterWS {
         th.start();
         return new TestClassResponse();
     }
-
-    @Override
-    public AddResponse add(Add parameters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AddAsyncResponse addAsync(AddAsync parameters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
 }

@@ -9,7 +9,7 @@
     
     <xs:import namespace="http://timedtester.org/base" schemaLocation="base-data.xsd"/>
     
-    <xs:element name="add" type="tns:add"/>
+    <!--xs:element name="add" type="tns:add"/>
     <xs:element name="addResponse" type="tns:addResponse"/>
     
     <xs:complexType name="add">
@@ -36,7 +36,7 @@
         <xs:sequence>
             <xs:element name="return" type="xs:string"/>
         </xs:sequence>
-    </xs:complexType>                
+    </xs:complexType-->                
     
     
     <xs:element name="testClass" type="tns:testClassRequest"/>

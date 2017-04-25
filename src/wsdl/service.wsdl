@@ -35,7 +35,7 @@
         </xsd:schema>
     </types>
     
-    <message name="add">
+    <!--message name="add">
         <part name="parameters" element="tns:add"/>
     </message>
     <message name="addResponse">
@@ -47,7 +47,7 @@
     </message>
     <message name="addAsyncResponse">
         <part name="parameters" element="tns:addAsyncResponse"/>
-    </message>
+    </message-->
     
     <!-- General functionality -->
     <message name="testClass">
@@ -74,7 +74,7 @@
     </message>
     
     <portType name="TimedTesterWS">
-        <operation name="add">
+        <!--operation name="add">
             <input wsam:Action="http://timedtester.org/TimedTesterWS/addRequest" message="tns:add"/>
             <output wsam:Action="http://timedtester.org/TimedTesterWS/addResponse" message="tns:addResponse"/>
         </operation>
@@ -82,7 +82,7 @@
         <operation name="addAsync">
             <input wsam:Action="http://timedtester.org/TimedTesterWS/addAsyncRequest" message="tns:addAsync"/>
             <output wsam:Action="http://timedtester.org/TimedTesterWS/addAsyncResponse" message="tns:addAsyncResponse"/>
-        </operation>
+        </operation-->
         
         <operation name="testClass">
             <input wsam:Action="http://timedtester.org/TimedTesterWS/testClassRequest" message="tns:testClass"/>
@@ -107,7 +107,7 @@
     
     <binding name="TimedTesterWSPortBinding" type="tns:TimedTesterWS">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <operation name="add">
+        <!--operation name="add">
             <soap:operation soapAction=""/>
             <input>
                 <soap:body use="literal"/>
@@ -125,7 +125,7 @@
             <output>
                 <soap:body use="literal"/>
             </output>
-        </operation>
+        </operation-->
         
         <operation name="testClass">
             <soap:operation soapAction=""/>
